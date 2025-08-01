@@ -6,20 +6,33 @@ This project guides you through building, training, and deploying a convolutiona
 - **Hardware**: Local computer for development; AWS EC2 Ubuntu instance (e.g., t2.micro for prototyping, t3.medium for training).
 - **Software**: Python 3.8+, TensorFlow 2.x, OpenCV, NumPy, Pandas, Flask, AWS CLI.
 - **Dataset**: Chest X-ray Pneumonia Dataset from Kaggle (~5,800 images, normal vs. pneumonia).
-- **Time**: 60-80 hours over 1-2 months (5-10 hours/week).
 
-## Step 1: Setup Environment (5-7 hours)
-**Objective**: Configure your AWS EC2 Ubuntu instance and local environment for development.
+Below is the updated Markdown content with the steps reordered and renumbered as requested. The new Step 1 combines the original Step 2 (setting up the code repository and cloning the GitHub repository) with the task of setting up the AWS EC2 system (task 1 from the original Step 1). The new Step 2 includes the remaining tasks from the original Step 1 (tasks 2–6). The artifact contains the full relevant portion with the reordered and renumbered steps.
+
+## Step 1: Setup AWS EC2 and Code Repository (6-8 hours)
+**Objective**: Configure an AWS EC2 Ubuntu instance and set up a local repository folder with SSH access to clone the project repository from GitHub.
 - **Tasks**:
   1. Launch an EC2 Ubuntu 20.04 instance (t2.micro, free tier eligible).
-  2. Install dependencies: `sudo apt update && sudo apt install python3-pip python3-venv`.
-  3. Create a Python virtual environment: `python3 -m venv env && source env/bin/activate`.
-  4. Install libraries: `pip install tensorflow opencv-python numpy pandas flask boto3`.
-  5. Download the Chest X-ray Pneumonia Dataset from Kaggle (use Kaggle API or manual download).
-  6. Upload the dataset to EC2 using `scp` or AWS S3.
-- **Learning Outcome**: Familiarity with AWS EC2 setup, Python environment management, and dataset handling.
+  2. Create a folder for the code repository: `mkdir Repositories && cd Repositories`.
+  3. Generate SSH keys: `ssh-keygen -t ed25519 -C "your_email@example.com"`, press Enter to accept default file location and optionally set a passphrase.
+  4. Display the public key: `cat ~/.ssh/id_ed25519.pub`, then copy the output.
+  5. Add the public key to GitHub:
+     - Log in to GitHub, navigate to Settings > SSH and GPG keys > New SSH key or Add SSH key.
+     - Paste the copied public key and save it.
+  6. Clone the repository: `git clone git@github.com:HCVV3arpCn/chestx.git`.
+- **Learning Outcome**: Familiarity with AWS EC2 instance setup, SSH key generation, GitHub SSH configuration, and cloning repositories for project development.
 
-## Step 2: Data Preprocessing (10-12 hours)
+## Step 2: Configure Development Environment (4-6 hours)
+**Objective**: Set up the Python environment and prepare the dataset on the EC2 instance.
+- **Tasks**:
+  1. Install dependencies: `sudo apt update && sudo apt install python3-pip python3-venv`.
+  2. Create a Python virtual environment: `python3 -m venv env && source env/bin/activate`.
+  3. Install libraries: `pip install tensorflow opencv-python numpy pandas flask boto3`.
+  4. Download the Chest X-ray Pneumonia Dataset from Kaggle (use Kaggle API or manual download).
+  5. Upload the dataset to EC2 using `scp` or AWS S3.
+- **Learning Outcome**: Proficiency in Python environment management and dataset handling on a cloud instance.
+
+## Step 3: Data Preprocessing (10-12 hours)
 **Objective**: Prepare X-ray images for model training using computer vision techniques.
 - **Tasks**:
   1. Write a Python script to load and preprocess images using OpenCV:
@@ -51,7 +64,7 @@ datagen = ImageDataGenerator(
 )
 ```
 
-## Step 3: Build and Train CNN Model (15-20 hours)
+## Step 4: Build and Train CNN Model (15-20 hours)
 **Objective**: Develop a CNN to classify X-ray images, learning deep learning and TensorFlow.
 - **Tasks**:
   1. Design a simple CNN architecture (e.g., 3 convolutional layers, 2 dense layers) using TensorFlow:
@@ -84,7 +97,7 @@ model = Sequential([
 model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
 ```
 
-## Step 4: Implement Transfer Learning (10-12 hours)
+## Step 5: Implement Transfer Learning (10-12 hours)
 **Objective**: Fine-tune a pre-trained model to enhance accuracy and learn transfer learning.
 - **Tasks**:
   1. Load a pre-trained model (e.g., ResNet50) from `tensorflow.keras.applications`.
@@ -113,7 +126,7 @@ model = Sequential([
 model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
 ```
 
-## Step 5: Deploy Model on AWS EC2 (15-20 hours)
+## Step 6: Deploy Model on AWS EC2 (15-20 hours)
 **Objective**: Create a Flask web app to serve the model, learning cloud deployment.
 - **Tasks**:
   1. Write a Flask app to load the trained model and accept image uploads for inference.
@@ -145,7 +158,7 @@ if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80)
 ```
 
-## Step 6: Document and Showcase (5-7 hours)
+## Step 7: Document and Showcase (5-7 hours)
 **Objective**: Create a portfolio piece to boost freelance marketability.
 - **Tasks**:
   1. Write a README for your GitHub repository, detailing the project, dataset, model architecture, and deployment steps.
