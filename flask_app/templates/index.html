@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chest X-ray Pneumonia Detector</title>
+    <style>
+        body { font-family: Arial; text-align: center; margin-top: 50px; background: #f4f4f4; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; background: white; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        #preview { max-width: 400px; margin: 20px auto; display: none; }
+        #result { font-size: 24px; margin: 20px; padding: 20px; border-radius: 10px; }
+        .normal { background: #d4edda; color: #155724; }
+        .pneumonia { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Chest X-ray Pneumonia Detector</h1>
+        <p>Upload a chest X-ray (JPG/PNG) – get instant prediction</p>
+        
+        <input type="file" id="fileInput" accept="image/*">
+        <button onclick="upload()">Analyze</button>
+        
+        <img id="preview" src="" alt="Preview">
+        
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function upload() {
+            const fileInput = document.getElementById('fileInput');
+            const preview = document.getElementById('preview');
+            const resultDiv = document.getElementById('result');
+            
+            if (!fileInput.files[0]) return;
+            
+            const file = fileInput.files[0];
+            preview.src = URL.createObjectURL(file);
+            preview.style.display = "block";
+            resultDiv.innerHTML = "Analyzing...";
+            
+            const formData = new FormData();
+            formData.append("file", file);
+            
+            fetch("/predict", { method: "POST", body: formData })
+                .then(r => r.json())
+                .then(data => {
+                    if (data.error) {
+                        resultDiv.innerHTML = data.error;
+                    } else {
+                        resultDiv.className = data.prediction.toLowerCase();
+                        resultDiv.innerHTML = `<strong>${data.prediction}</strong><br>Confidence: ${data.confidence}%`;
+                    }
+                });
+        }
+    </script>
+</body>
+</html>
